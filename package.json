@@ -35,6 +35,8 @@
     "/public/build"
   ],
   "dependencies": {
+    "@mantine/core": "^4.2.5",
+    "@mantine/ssr": "^4.2.5",
     "@prisma/client": "^3.11.1",
     "@remix-run/express": "^1.4.3",
     "@remix-run/node": "^1.4.3",
