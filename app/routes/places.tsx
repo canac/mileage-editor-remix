@@ -7,23 +7,13 @@ import { requireUserId } from "~/session.server";
 import { useUser } from "~/utils";
 import { prisma } from "~/db.server";
 import type { Place } from "@prisma/client";
-import { Button, TextInput } from "@mantine/core";
-import { z } from "zod";
-import { withZod } from "@remix-validated-form/with-zod";
-
-const formValidator = withZod(
-  z.object({
-    id: z.string().min(1).optional(),
-    name: z.string().min(1),
-    address: z.string().min(1),
-  })
-);
+import { validator as placeValidator, PlaceForm } from "~/components/PlaceForm";
 
 export const action: ActionFunction = async ({ request }) => {
   const userId = await requireUserId(request);
 
   const formData = await request.formData();
-  const result = await formValidator.validate(formData);
+  const result = await placeValidator.validate(formData);
   if (result.error) {
     throw result.error;
   }
@@ -82,47 +72,9 @@ export default function PlacesPage() {
 
       <main className="p-6">
         {data.places.map((place) => (
-          <Form
-            className="flex gap-6 py-3"
-            action="/places"
-            method="post"
-            key={place.id}
-          >
-            <input type="hidden" name="id" value={place.id} />
-            <TextInput
-              className="grow"
-              label="Name"
-              name="name"
-              defaultValue={place.name}
-            />
-            <TextInput
-              className="grow-[3]"
-              label="Address"
-              name="address"
-              defaultValue={place.address}
-            />
-            <Button
-              className="self-end"
-              type="submit"
-              variant="filled"
-              color="green"
-            >
-              Update
-            </Button>
-          </Form>
+          <PlaceForm key={place.id} place={place} />
         ))}
-        <Form className="flex gap-6 py-3" action="/places" method="post">
-          <TextInput className="grow" label="Name" name="name" />
-          <TextInput className="grow-[3]" label="Address" name="address" />
-          <Button
-            className="self-end"
-            type="submit"
-            variant="filled"
-            color="green"
-          >
-            Create
-          </Button>
-        </Form>
+        <PlaceForm />
       </main>
     </div>
   );
