@@ -6,8 +6,10 @@ import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { withZod } from "@remix-validated-form/with-zod";
-import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import { faDollarSign, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FaIcon } from "~/components/FaIcon";
+import { Button } from "@mantine/core";
+import { useFetcher } from "@remix-run/react";
 
 export const validator = withZod(
   z.object({
@@ -29,6 +31,18 @@ export interface JourneyTemplateFormProps {
 export function JourneyTemplateForm({
   journeyTemplate,
 }: JourneyTemplateFormProps): JSX.Element {
+  const deleteFetcher = useFetcher();
+
+  const id = journeyTemplate?.id ?? null;
+  const creating = id === null;
+
+  function onDelete() {
+    deleteFetcher.submit(null, {
+      method: "post",
+      action: `/journey-templates/${id}/delete`,
+    });
+  }
+
   return (
     <ValidatedForm
       className="flex gap-6 py-3"
@@ -36,9 +50,9 @@ export function JourneyTemplateForm({
       defaultValues={journeyTemplate ?? { distance: 0, tolls: 0 }}
       resetAfterSubmit
       action={
-        typeof journeyTemplate?.id === "undefined"
+        creating
           ? "/journey-templates/create"
-          : `/journey-templates/${journeyTemplate?.id}/update`
+          : `/journey-templates/${id}/update`
       }
       method="post"
     >
@@ -78,6 +92,17 @@ export function JourneyTemplateForm({
       >
         {journeyTemplate ? "Update" : "Create"}
       </SubmitButton>
+      {!creating ? (
+        <Button
+          className="self-end"
+          variant="filled"
+          color="red"
+          onClick={() => onDelete()}
+          loading={deleteFetcher.state === "submitting"}
+        >
+          <FaIcon icon={faTrash} />
+        </Button>
+      ) : null}
     </ValidatedForm>
   );
 }
