@@ -11,13 +11,14 @@ import { FaIcon } from "~/components/FaIcon";
 
 export const validator = withZod(
   z.object({
-    id: z.string().min(1).optional(),
     name: z.string().min(1),
     description: z.string().min(1),
     to: z.string().min(1),
     from: z.string().min(1),
-    distance: zfd.numeric(),
-    tolls: zfd.numeric(),
+    // Convert floating point miles to integer tenths of a mile
+    distance: zfd.numeric().transform((distance) => Math.floor(distance * 10)),
+    // Convert floating point dollars to integer cents
+    tolls: zfd.numeric().transform((tolls) => Math.floor(tolls * 100)),
   })
 );
 
@@ -34,12 +35,13 @@ export function JourneyTemplateForm({
       validator={validator}
       defaultValues={journeyTemplate ?? { distance: 0, tolls: 0 }}
       resetAfterSubmit
-      action="/journey-templates"
+      action={
+        typeof journeyTemplate?.id === "undefined"
+          ? "/journey-templates/create"
+          : `/journey-templates/${journeyTemplate?.id}/update`
+      }
       method="post"
     >
-      {typeof journeyTemplate?.id !== "undefined" ? (
-        <input type="hidden" name="id" value={journeyTemplate.id} />
-      ) : undefined}
       <TextInput className="grow" label="Name" name="name" required />
       <TextInput
         className="grow"
