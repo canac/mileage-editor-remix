@@ -1,12 +1,11 @@
+import type { JourneyTemplate } from "@prisma/client";
 import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Link, useLoaderData } from "@remix-run/react";
-
+import { JourneyTemplateForm } from "~/components/JourneyTemplateForm";
+import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
 import { useUser } from "~/utils";
-import { prisma } from "~/db.server";
-import type { JourneyTemplate } from "@prisma/client";
-import { JourneyTemplateForm } from "~/components/JourneyTemplateForm";
 
 type LoaderData = {
   journeyTemplates: JourneyTemplate[];

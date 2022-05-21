@@ -1,3 +1,4 @@
+import { MantineProvider } from "@mantine/core";
 import type {
   LinksFunction,
   LoaderFunction,
@@ -13,9 +14,8 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { getUser } from "./session.server";
-import { MantineProvider } from "@mantine/core";
+import tailwindStylesheetUrl from "./styles/tailwind.css";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];

@@ -1,13 +1,13 @@
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "@mantine/core";
 import type { Place } from "@prisma/client";
-import { TextInput } from "~/components/TextInput";
-import { SubmitButton } from "~/components/SubmitButton";
+import { useFetcher } from "@remix-run/react";
+import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
-import { withZod } from "@remix-validated-form/with-zod";
-import { useFetcher } from "@remix-run/react";
-import { Button } from "@mantine/core";
 import { FaIcon } from "~/components/FaIcon";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { SubmitButton } from "~/components/SubmitButton";
+import { TextInput } from "~/components/TextInput";
 
 export const validator = withZod(
   z.object({

@@ -1,15 +1,15 @@
+import { faDollarSign, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "@mantine/core";
 import type { JourneyTemplate } from "@prisma/client";
-import { NumberInput } from "~/components/NumberInput";
-import { TextInput } from "~/components/TextInput";
-import { SubmitButton } from "~/components/SubmitButton";
+import { useFetcher } from "@remix-run/react";
+import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { withZod } from "@remix-validated-form/with-zod";
-import { faDollarSign, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FaIcon } from "~/components/FaIcon";
-import { Button } from "@mantine/core";
-import { useFetcher } from "@remix-run/react";
+import { NumberInput } from "~/components/NumberInput";
+import { SubmitButton } from "~/components/SubmitButton";
+import { TextInput } from "~/components/TextInput";
 
 export const validator = withZod(
   z.object({

@@ -1,7 +1,7 @@
 import type { ButtonProps } from "@mantine/core";
 import { Button } from "@mantine/core";
-import { useIsSubmitting } from "remix-validated-form";
 import type { ReactNode } from "react";
+import { useIsSubmitting } from "remix-validated-form";
 
 export type SubmitButtonProps = ButtonProps<"button"> & {
   children: ReactNode;

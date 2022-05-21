@@ -1,9 +1,8 @@
 import type { ActionFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-
-import { requireUserId } from "~/session.server";
-import { prisma } from "~/db.server";
 import invariant from "tiny-invariant";
+import { prisma } from "~/db.server";
+import { requireUserId } from "~/session.server";
 
 export const action: ActionFunction = async ({ request, params }) => {
   const { id } = params;
