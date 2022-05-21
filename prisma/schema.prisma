@@ -57,8 +57,8 @@ model JourneyTemplate {
   description String
   from        String
   to          String
-  miles       Int
-  tolls       Int
+  distance    Int // Stored as tenths of a mile
+  tolls       Int // Stored as cents
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -73,8 +73,8 @@ model Journey {
   description String
   from        String
   to          String
-  miles       Int
-  tolls       Int
+  distance    Int // Stored as tenths of a mile
+  tolls       Int // Stored as cents
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

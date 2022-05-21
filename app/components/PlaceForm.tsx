@@ -1,5 +1,5 @@
 import type { Place } from "@prisma/client";
-import { TextInput } from "@mantine/core";
+import { TextInput } from "~/components/TextInput";
 import { SubmitButton } from "~/components/SubmitButton";
 import { ValidatedForm } from "remix-validated-form";
 import { z } from "zod";
@@ -22,6 +22,7 @@ export function PlaceForm({ place }: PlaceFormProps): JSX.Element {
     <ValidatedForm
       className="flex gap-6 py-3"
       validator={validator}
+      defaultValues={place}
       resetAfterSubmit
       action="/places"
       method="post"
@@ -29,20 +30,8 @@ export function PlaceForm({ place }: PlaceFormProps): JSX.Element {
       {typeof place?.id !== "undefined" ? (
         <input type="hidden" name="id" value={place.id} />
       ) : undefined}
-      <TextInput
-        className="grow"
-        label="Name"
-        name="name"
-        required
-        defaultValue={place?.name}
-      />
-      <TextInput
-        className="grow-[3]"
-        label="Address"
-        name="address"
-        required
-        defaultValue={place?.address}
-      />
+      <TextInput className="grow" label="Name" name="name" required />
+      <TextInput className="grow-[3]" label="Address" name="address" required />
       <SubmitButton
         className="self-end"
         type="submit"
