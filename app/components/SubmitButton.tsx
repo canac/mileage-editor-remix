@@ -1,11 +1,10 @@
 import type { ButtonProps } from "@mantine/core";
 import { Button } from "@mantine/core";
 import { useIsSubmitting } from "remix-validated-form";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { FaIcon } from "~/components/FaIcon";
+import type { ReactNode } from "react";
 
 export type SubmitButtonProps = ButtonProps<"button"> & {
-  children: string;
+  children: ReactNode;
 };
 
 export function SubmitButton({
@@ -17,14 +16,11 @@ export function SubmitButton({
   return (
     <Button
       type="submit"
-      disabled={isSubmitting}
       variant="filled"
       color="green"
+      loading={isSubmitting}
       {...props}
     >
-      {isSubmitting ? (
-        <FaIcon className="pr-3" icon={faSpinner} spin />
-      ) : undefined}
       {children}
     </Button>
   );
