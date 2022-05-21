@@ -1,5 +1,4 @@
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Link, useLoaderData } from "@remix-run/react";
 
@@ -7,34 +6,7 @@ import { requireUserId } from "~/session.server";
 import { useUser } from "~/utils";
 import { prisma } from "~/db.server";
 import type { Place } from "@prisma/client";
-import { validator as placeValidator, PlaceForm } from "~/components/PlaceForm";
-
-export const action: ActionFunction = async ({ request }) => {
-  const userId = await requireUserId(request);
-
-  const formData = await request.formData();
-  const result = await placeValidator.validate(formData);
-  if (result.error) {
-    throw result.error;
-  }
-
-  const { id, ...fields } = result.data;
-  if (typeof id === "undefined") {
-    await prisma.place.create({
-      data: { userId, ...fields },
-    });
-  } else {
-    const { count } = await prisma.place.updateMany({
-      where: { id, userId },
-      data: fields,
-    });
-    if (count === 0) {
-      throw new Response("Place not found", { status: 404 });
-    }
-  }
-
-  return redirect(`/places`);
-};
+import { PlaceForm } from "~/components/PlaceForm";
 
 type LoaderData = {
   places: Place[];

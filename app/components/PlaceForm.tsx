@@ -7,7 +7,6 @@ import { withZod } from "@remix-validated-form/with-zod";
 
 export const validator = withZod(
   z.object({
-    id: z.string().min(1).optional(),
     name: z.string().min(1),
     address: z.string().min(1),
   })
@@ -24,12 +23,13 @@ export function PlaceForm({ place }: PlaceFormProps): JSX.Element {
       validator={validator}
       defaultValues={place}
       resetAfterSubmit
-      action="/places"
+      action={
+        typeof place?.id === "undefined"
+          ? "/places/create"
+          : `/places/${place.id}/update`
+      }
       method="post"
     >
-      {typeof place?.id !== "undefined" ? (
-        <input type="hidden" name="id" value={place.id} />
-      ) : undefined}
       <TextInput className="grow" label="Name" name="name" required />
       <TextInput className="grow-[3]" label="Address" name="address" required />
       <SubmitButton
